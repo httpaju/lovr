@@ -38,7 +38,7 @@ document.getElementById('lover-form').addEventListener('submit', async function(
     const encoded = encodeURIComponent(jsonString);
 
     const baseURL = window.location.origin.replace('lover.html', 'index.html');
-    const fullLink = `${baseURL}?data=${encoded}`;
+    const fullLink = `${baseURL}/lovr/?data=${encoded}`;
 
     const resultLink = document.getElementById('result-link');
     resultLink.href = fullLink;
