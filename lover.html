@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Create Birthday Surprise</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <h1>Create Birthday Surprise</h1>
+
+    <form id="lover-form">
+        <label>Your Name:<br>
+            <input type="text" id="yourName" required>
+        </label><br><br>
+
+        <label>Birthday Person's Name:<br>
+            <input type="text" id="birthdayPerson" required>
+        </label><br><br>
+
+        <label>Message:<br>
+            <textarea id="message" rows="4" required></textarea>
+        </label><br><br>
+
+        <label>Upload Images:<br>
+            <input type="file" id="images" accept="image/*" multiple required>
+        </label><br><br>
+
+        <button type="submit">Generate Surprise Link</button>
+    </form>
+
+    <h3>Generated Link:</h3>
+    <p><a href="#" id="result-link" target="_blank">Your surprise link will appear here</a></p>
+
+    <script src="lover.js"></script>
+</body>
+</html>
