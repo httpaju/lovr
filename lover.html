@@ -24,7 +24,7 @@
         </label><br><br>
 
         <label>Upload Images:<br>
-            <input type="file" id="images" accept="image/*" multiple required>
+            <input type="file" id="images" accept="image/*" multiple required onchange="validateFileCount()">
         </label><br><br>
 
         <button type="submit">Generate Surprise Link</button>
@@ -34,5 +34,15 @@
     <p><a href="#" id="result-link" target="_blank">Your surprise link will appear here</a></p>
 
     <script src="lover.js"></script>
+    <script>
+function validateFileCount() {
+    const input = document.getElementById('images');
+    if (input.files.length > 10) {
+        alert("You can upload up to 10 images only.");
+        input.value = ""; // Reset file selection
+    }
+}
+</script>
+
 </body>
 </html>
