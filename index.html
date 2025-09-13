@@ -727,6 +727,43 @@ draw();</script>
             }
             animate();
         };
+		// Parse the data from URL and dynamically update the page
+window.addEventListener('load', function() {
+    const params = new URLSearchParams(window.location.search);
+    const dataParam = params.get('data');
+    if (!dataParam) return;
+    try {
+        const data = JSON.parse(decodeURIComponent(dataParam));
+
+        // Update the birthday message
+        const p = document.querySelector('#spin-container p');
+        if (p && data.birthdayPerson) {
+            p.textContent = `Happy Birthday ${data.birthdayPerson}`;
+        }
+
+        // Remove existing images
+        const spinContainer = document.getElementById('spin-container');
+        const existingImages = spinContainer.querySelectorAll('img');
+        existingImages.forEach(img => img.remove());
+
+        // Add new images from data
+        if (data.images && Array.isArray(data.images)) {
+            data.images.forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                spinContainer.insertBefore(img, p); // Insert before the message
+            });
+            // Reinitialize after images are added
+            aImg = spinContainer.getElementsByTagName('img');
+            aEle = [...aImg];
+            init();
+        }
+
+    } catch (err) {
+        console.error("Invalid data in URL:", err);
+    }
+});
+
     </script>
 </body>
 </html>
