@@ -3,20 +3,109 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Birthday Surprise!</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Birthday Surprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> <!-- Custom font -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ffdde1, #fad0c4);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Pacifico', cursive;
+        }
+        .container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+        .circle-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #ff4081;
+            font-size: 2em;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .circle-images {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            transform-origin: center center;
+            animation: rotate 20s linear infinite;
+        }
+        .circle-images img {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            object-fit: cover;
+            border: 2px solid white;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg);}
+            to { transform: rotate(360deg);}
+        }
+    </style>
 </head>
 <body>
 
-    <h1 id="greeting">Happy Birthday!</h1>
-    <h2 id="birthday-person"></h2>
-    <p id="message"></p>
-
-    <div id="drag-container">
-        <div id="spin-container"></div>
+    <div class="container">
+        <div class="circle-text" id="greeting">Happy Birthday!</div>
+        <div class="circle-images" id="circleImages"></div>
     </div>
-    <div id="ground"></div>
 
-    <script src="script.js"></script>
+    <script>
+        // Get data from URL
+        function getData() {
+            const params = new URLSearchParams(window.location.search);
+            const dataParam = params.get('data');
+            if (!dataParam) {
+                return null;
+            }
+            try {
+                return JSON.parse(decodeURIComponent(dataParam));
+            } catch(e) {
+                console.error("Invalid JSON data in URL");
+                return null;
+            }
+        }
+
+        function displaySurprise(data) {
+            if (!data) return;
+
+            const greeting = document.getElementById('greeting');
+            greeting.textContent = `Happy Birthday ${data.birthdayPerson || ''}!`;
+
+            const circle = document.getElementById('circleImages');
+            const images = data.images || [];
+            const total = images.length;
+
+            images.forEach((imgUrl, index) => {
+                const img = document.createElement('img');
+                img.src = imgUrl;
+                const angle = (index / total) * 2 * Math.PI;
+                const radius = 180;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                img.style.left = `${200 + x - 40}px`; // center + offset - half width
+                img.style.top = `${200 + y - 40}px`;  // center + offset - half height
+                circle.appendChild(img);
+            });
+        }
+
+        // Run
+        const data = getData();
+        displaySurprise(data);
+    </script>
+
 </body>
 </html>
