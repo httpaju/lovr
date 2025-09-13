@@ -4,45 +4,78 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Create Birthday Surprise</title>
-    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full transform transition-all hover:scale-105">
+        <h1 class="text-3xl font-bold text-center text-purple-600 mb-6">Create Birthday Surprise</h1>
 
-    <h1>Create Birthday Surprise</h1>
+        <form id="lover-form" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Your Name:</label>
+                <input type="text" id="yourName" required 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-purple-500 focus:border-purple-500 p-2">
+            </div>
 
-    <form id="lover-form">
-        <label>Your Name:<br>
-            <input type="text" id="yourName" required>
-        </label><br><br>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Birthday Person's Name:</label>
+                <input type="text" id="birthdayPerson" required 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-purple-500 focus:border-purple-500 p-2">
+            </div>
 
-        <label>Birthday Person's Name:<br>
-            <input type="text" id="birthdayPerson" required>
-        </label><br><br>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Message:</label>
+                <textarea id="message" rows="4" required 
+                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-purple-500 focus:border-purple-500 p-2"></textarea>
+            </div>
 
-        <label>Message:<br>
-            <textarea id="message" rows="4" required></textarea>
-        </label><br><br>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Upload Images:</label>
+                <input type="file" id="images" accept="image/*" multiple required 
+                       onchange="validateFileCount()"
+                       class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
+            </div>
 
-        <label>Upload Images:<br>
-            <input type="file" id="images" accept="image/*" multiple required onchange="validateFileCount()">
-        </label><br><br>
+            <button type="submit" 
+                    class="w-full bg-purple-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-purple-700 transition duration-300">
+                Generate Surprise Link
+            </button>
+        </form>
 
-        <button type="submit">Generate Surprise Link</button>
-    </form>
-
-    <h3>Generated Link:</h3>
-    <p><a href="#" id="result-link" target="_blank">Your surprise link will appear here</a></p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-6">Generated Link:</h3>
+        <div class="mt-2 flex items-center space-x-2">
+            <p>
+                <a href="#" id="result-link" target="_blank" 
+                   class="text-purple-600 hover:text-purple-800 underline">
+                    Your surprise link will appear here
+                </a>
+            </p>
+            <button onclick="copyLink()" 
+                    class="bg-purple-600 text-white font-semibold py-1 px-3 rounded-md hover:bg-purple-700 transition duration-300">
+                Copy
+            </button>
+        </div>
+    </div>
 
     <script src="lover.js"></script>
     <script>
-function validateFileCount() {
-    const input = document.getElementById('images');
-    if (input.files.length > 10) {
-        alert("You can upload up to 10 images only.");
-        input.value = ""; // Reset file selection
-    }
-}
-</script>
+        function validateFileCount() {
+            const input = document.getElementById('images');
+            if (input.files.length > 10) {
+                alert("You can upload up to 10 images only.");
+                input.value = ""; // Reset file selection
+            }
+        }
 
+        function copyLink() {
+            const link = document.getElementById('result-link').href;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy link: ', err);
+                alert('Failed to copy link. Please try again.');
+            });
+        }
+    </script>
 </body>
 </html>
