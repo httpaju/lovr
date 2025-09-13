@@ -1,111 +1,732 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Birthday Surprise</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> <!-- Custom font -->
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(45deg, #ffdde1, #fad0c4);
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Pacifico', cursive;
-        }
-        .container {
-            position: relative;
-            width: 500px;
-            height: 500px;
-        }
-        .circle-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #ff4081;
-            font-size: 2em;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-        }
-        .circle-images {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 400px;
-            height: 400px;
-            transform-origin: center center;
-            animation: rotate 20s linear infinite;
-        }
-        .circle-images img {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            object-fit: cover;
-            border: 2px solid white;
-        }
-        @keyframes rotate {
-            from { transform: rotate(0deg);}
-            to { transform: rotate(360deg);}
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uyên Nhi</title>
+    <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>@import url('https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Archivo:ital,wght@0,100..900;1,100..900&family=Bilbo+Swash+Caps&family=Inter:opsz,wght@14..32,500&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Pacifico&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  html,
+  body {
+    height: 100%;
+    /* for touch screen */
+    touch-action: none; 
+  }
+  
+  body {
+    overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-family: "Pacifico", sans-serif;
+    background: #ffffff;
+    -webkit-perspective: 1000px;
+            perspective: 1000px;
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+  }
+  
+  #drag-container, #spin-container {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: auto;
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+    -webkit-transform: rotateX(-10deg);
+            transform: rotateX(-10deg);
+            z-index: 100;
+  }
+  
+  #drag-container img, #drag-container video {
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 120%;
+    max-height: 120%; 
+    line-height: 200px;
+    font-size: 50px;
+    text-align: center;
+    -webkit-box-shadow: 0 0 8px #fff;
+            box-shadow: 0 0 8px #fff;
+    -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0005);
+  }
+  
+  #drag-container img:hover, #drag-container video:hover {
+    -webkit-box-shadow: 0 0 15px #fffd;
+            box-shadow: 0 0 15px #fffd;
+    -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0007);
+  }
+  
+  #drag-container p {
+    
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%) rotateX(90deg);
+            transform: translate(-50%,-50%) rotateX(90deg);
+    color: rgb(0, 195, 255);
+    animation: fadein ease 15s;
+  }
+
+  @keyframes fadein {
+      from {
+          opacity:0;
+          
+      }
+      to {
+          opacity: 1;
+          
+      }
+  }
+  
+  #ground {
+    width: 900px;
+    height: 900px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%) rotateX(90deg);
+            transform: translate(-50%,-50%) rotateX(90deg);
+    background: -webkit-radial-gradient(center center, farthest-side , #9993, transparent);
+  }
+  
+  #music-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+  }
+  
+  @-webkit-keyframes spin {
+    from{
+      -webkit-transform: rotateY(0deg);
+              transform: rotateY(0deg);
+    } to{
+      -webkit-transform: rotateY(360deg);
+              transform: rotateY(360deg);
+    }
+  }
+  
+  @keyframes spin {
+    from{
+      -webkit-transform: rotateY(0deg);
+              transform: rotateY(0deg);
+    } to{
+      -webkit-transform: rotateY(360deg);
+              transform: rotateY(360deg);
+    }
+  }
+  @-webkit-keyframes spinRevert {
+    from{
+      -webkit-transform: rotateY(360deg);
+              transform: rotateY(360deg);
+    } to{
+      -webkit-transform: rotateY(0deg);
+              transform: rotateY(0deg);
+    }
+  }
+  @keyframes spinRevert {
+    from{
+      -webkit-transform: rotateY(360deg);
+              transform: rotateY(360deg);
+    } to{
+      -webkit-transform: rotateY(0deg);
+              transform: rotateY(0deg);
+    }
+  }
+
+  #canvas {
+    background-color:transparent;   
+    color: transparent; 
+    margin: 0;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    width: 100vw;
+  }
+
+
+#canva {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    overflow: hidden;
+}
+
+p {
+    font-weight: 600;
+    font-size: 4vw;
+    text-align: center;
+    
+}
+
+@media screen and (max-width: 658px)    {
+  p {
+    font-weight: 600;
+    font-size: 12vw;
+    text-align: center;
+}
+}</style>
 </head>
 <body>
-
-    <div class="container">
-        <div class="circle-text" id="greeting">Happy Birthday!</div>
-        <div class="circle-images" id="circleImages"></div>
+    <div id="drag-container">
+        <div id="spin-container">
+            <img src="./images/r1.png" alt="">
+            <img src="./images/r2.png" alt="">
+            <img src="./images/r3.png" alt="">
+            <img src="./images/r4.png" alt="">
+            <img src="./images/r5.jpg" alt="">
+            <img src="./images/r6.png" alt="">
+            <img src="./images/r7.png" alt="">
+            <img src="./images/r8.png" alt="">
+            <img src="./images/r9.png" alt="">
+            <img src="./images/r10.png" alt="">
+            <p>Happy Birthday Rashmii</p>
+        </div>
+        <div id="ground"></div>
     </div>
+    
+    <div id="music-container"></div>
+    <!-- <div id="canva">
+        <canvas id="canvas"></canvas>
+    </div> -->
+
+    <!-- Audio tự động phát -->
+    <audio id="myAudio" autoplay playsinline>
+        <source src="music/setlove.mp3" type="audio/mpeg">
+        <source src="music/setlove.ogg" type="audio/ogg">
+    </audio>
+
+    <script>// You can change global variables here:
+var radius = 240; // how big of the radius
+var autoRotate = true; // auto rotate or not
+var rotateSpeed = -60; // unit: seconds/360 degrees
+var imgWidth = 120; // width of images (unit: px)
+var imgHeight = 170; // height of images (unit: px)
+
+// Link of background music - set 'null' if you dont want to play background music
+var bgMusicURL = 'https://api.soundcloud.com/tracks/143041228/stream?client_id=587aa2d384f7333a886010d5f52f302a';
+var bgMusicControls = true; // Show UI music control
+
+
+
+// ===================== start =======================
+// animation start after 1000 miliseconds
+setTimeout(init, 1000);
+
+var odrag = document.getElementById('drag-container');
+var ospin = document.getElementById('spin-container');
+var aImg = ospin.getElementsByTagName('img');
+var aVid = ospin.getElementsByTagName('video');
+var aEle = [...aImg, ...aVid]; // combine 2 arrays
+
+// Size of images
+ospin.style.width = imgWidth + "px";
+ospin.style.height = imgHeight + "px";
+
+// Size of ground - depend on radius
+var ground = document.getElementById('ground');
+ground.style.width = radius * 3 + "px";
+ground.style.height = radius * 3 + "px";
+
+function init(delayTime) {
+  for (var i = 0; i < aEle.length; i++) {
+    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
+    aEle[i].style.transition = "transform 1s";
+    aEle[i].style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
+  }
+}
+
+function applyTranform(obj) {
+  // Constrain the angle of camera (between 0 and 180)
+  if(tY > 180) tY = 180;
+  if(tY < 0) tY = 0;
+
+  // Apply the angle
+  obj.style.transform = "rotateX(" + (-tY) + "deg) rotateY(" + (tX) + "deg)";
+}
+
+function playSpin(yes) {
+  ospin.style.animationPlayState = (yes?'running':'paused');
+}
+
+var sX, sY, nX, nY, desX = 0,
+    desY = 0,
+    tX = 0,
+    tY = 10;
+
+// auto spin
+if (autoRotate) {
+  var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
+  ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
+}
+
+// add background music
+if (bgMusicURL) {
+  document.getElementById('music-container').innerHTML += `
+<audio src="${bgMusicURL}" ${bgMusicControls? 'controls': ''} autoplay loop>    
+<p>If you are reading this, it is because your browser does not support the audio element.</p>
+</audio>
+`;
+}
+
+// setup events
+document.onpointerdown = function (e) {
+  clearInterval(odrag.timer);
+  e = e || window.event;
+  var sX = e.clientX,
+      sY = e.clientY;
+
+  this.onpointermove = function (e) {
+    e = e || window.event;
+    var nX = e.clientX,
+        nY = e.clientY;
+    desX = nX - sX;
+    desY = nY - sY;
+    tX += desX * 0.1;
+    tY += desY * 0.1;
+    applyTranform(odrag);
+    sX = nX;
+    sY = nY;
+  };
+
+  this.onpointerup = function (e) {
+    odrag.timer = setInterval(function () {
+      desX *= 0.95;
+      desY *= 0.95;
+      tX += desX * 0.1;
+      tY += desY * 0.1;
+      applyTranform(odrag);
+      playSpin(false);
+      if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
+        clearInterval(odrag.timer);
+        playSpin(true);
+      }
+    }, 17);
+    this.onpointermove = this.onpointerup = null;
+  };
+
+  return false;
+};
+
+document.onmousewheel = function(e) {
+  e = e || window.event;
+  var d = e.wheelDelta / 20 || -e.detail;
+  radius += d;
+  init(1);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var canvas = document.getElementById("canvas");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Initialize the GL context
+var gl = canvas.getContext('webgl');
+if(!gl){
+  console.error("Unable to initialize WebGL.");
+}
+
+//Time
+var time = 0.0;
+
+//************** Shader sources **************
+
+var vertexSource = `
+attribute vec2 position;
+void main() {
+	gl_Position = vec4(position, 0.0, 1.0);
+}
+`;
+
+var fragmentSource = `
+precision highp float;
+
+uniform float width;
+uniform float height;
+vec2 resolution = vec2(width, height);
+
+uniform float time;
+
+#define POINT_COUNT 8
+
+vec2 points[POINT_COUNT];
+const float speed = -0.5;
+const float len = 0.25;
+float intensity = 1.3;
+float radius = 0.008;
+
+//https://www.shadertoy.com/view/MlKcDD
+//Signed distance to a quadratic bezier
+float sdBezier(vec2 pos, vec2 A, vec2 B, vec2 C){    
+	vec2 a = B - A;
+	vec2 b = A - 2.0*B + C;
+	vec2 c = a * 2.0;
+	vec2 d = A - pos;
+
+	float kk = 1.0 / dot(b,b);
+	float kx = kk * dot(a,b);
+	float ky = kk * (2.0*dot(a,a)+dot(d,b)) / 3.0;
+	float kz = kk * dot(d,a);      
+
+	float res = 0.0;
+
+	float p = ky - kx*kx;
+	float p3 = p*p*p;
+	float q = kx*(2.0*kx*kx - 3.0*ky) + kz;
+	float h = q*q + 4.0*p3;
+
+	if(h >= 0.0){ 
+		h = sqrt(h);
+		vec2 x = (vec2(h, -h) - q) / 2.0;
+		vec2 uv = sign(x)*pow(abs(x), vec2(1.0/3.0));
+		float t = uv.x + uv.y - kx;
+		t = clamp( t, 0.0, 1.0 );
+
+		// 1 root
+		vec2 qos = d + (c + b*t)*t;
+		res = length(qos);
+	}else{
+		float z = sqrt(-p);
+		float v = acos( q/(p*z*2.0) ) / 3.0;
+		float m = cos(v);
+		float n = sin(v)*1.732050808;
+		vec3 t = vec3(m + m, -n - m, n - m) * z - kx;
+		t = clamp( t, 0.0, 1.0 );
+
+		// 3 roots
+		vec2 qos = d + (c + b*t.x)*t.x;
+		float dis = dot(qos,qos);
+        
+		res = dis;
+
+		qos = d + (c + b*t.y)*t.y;
+		dis = dot(qos,qos);
+		res = min(res,dis);
+		
+		qos = d + (c + b*t.z)*t.z;
+		dis = dot(qos,qos);
+		res = min(res,dis);
+
+		res = sqrt( res );
+	}
+    
+	return res;
+}
+
+
+//http://mathworld.wolfram.com/HeartCurve.html
+vec2 getHeartPosition(float t){
+	return vec2(16.0 * sin(t) * sin(t) * sin(t),
+							-(13.0 * cos(t) - 5.0 * cos(2.0*t)
+							- 2.0 * cos(3.0*t) - cos(4.0*t)));
+}
+
+//https://www.shadertoy.com/view/3s3GDn
+float getGlow(float dist, float radius, float intensity){
+	return pow(radius/dist, intensity);
+}
+
+float getSegment(float t, vec2 pos, float offset, float scale){
+	for(int i = 0; i < POINT_COUNT; i++){
+		points[i] = getHeartPosition(offset + float(i)*len + fract(speed * t) * 6.28);
+	}
+    
+	vec2 c = (points[0] + points[1]) / 2.0;
+	vec2 c_prev;
+	float dist = 10000.0;
+    
+	for(int i = 0; i < POINT_COUNT-1; i++){
+		//https://tinyurl.com/y2htbwkm
+		c_prev = c;
+		c = (points[i] + points[i+1]) / 2.0;
+		dist = min(dist, sdBezier(pos, scale * c_prev, scale * points[i], scale * c));
+	}
+	return max(0.0, dist);
+}
+
+void main(){
+	vec2 uv = gl_FragCoord.xy/resolution.xy;
+	float widthHeightRatio = resolution.x/resolution.y;
+	vec2 centre = vec2(0.5, 0.5);
+	vec2 pos = centre - uv;
+	pos.y /= widthHeightRatio;
+	//Shift upwards to centre heart
+	pos.y += 0.02;
+	float scale = 0.000015 * height;
+	
+	float t = time;
+    
+	//Get first segment
+  float dist = getSegment(t, pos, 0.0, scale);
+  float glow = getGlow(dist, radius, intensity);
+  
+  vec3 col = vec3(0.0);
+
+	//White core
+  col += 10.0*vec3(smoothstep(0.003, 0.001, dist));
+  //Pink glow
+  col += glow * vec3(1.0,0.05,0.3);
+  
+  //Get second segment
+  dist = getSegment(t, pos, 3.4, scale);
+  glow = getGlow(dist, radius, intensity);
+  
+  //White core
+  col += 10.0*vec3(smoothstep(0.003, 0.001, dist));
+  //Blue glow
+  col += glow * vec3(0.1,0.4,1.0);
+        
+	//Tone mapping
+	col = 1.0 - exp(-col);
+
+	//Gamma
+	col = pow(col, vec3(0.4545));
+
+	//Output to screen
+ 	gl_FragColor = vec4(col,1.0);
+}
+`;
+
+//************** Utility functions **************
+
+window.addEventListener('resize', onWindowResize, false);
+
+function onWindowResize(){
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+	gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.uniform1f(widthHandle, window.innerWidth);
+  gl.uniform1f(heightHandle, window.innerHeight);
+}
+
+
+//Compile shader and combine with source
+function compileShader(shaderSource, shaderType){
+  var shader = gl.createShader(shaderType);
+  gl.shaderSource(shader, shaderSource);
+  gl.compileShader(shader);
+  if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)){
+  	throw "Shader compile failed with: " + gl.getShaderInfoLog(shader);
+  }
+  return shader;
+}
+
+//From https://codepen.io/jlfwong/pen/GqmroZ
+//Utility to complain loudly if we fail to find the attribute/uniform
+function getAttribLocation(program, name) {
+  var attributeLocation = gl.getAttribLocation(program, name);
+  if (attributeLocation === -1) {
+  	throw 'Cannot find attribute ' + name + '.';
+  }
+  return attributeLocation;
+}
+
+function getUniformLocation(program, name) {
+  var attributeLocation = gl.getUniformLocation(program, name);
+  if (attributeLocation === -1) {
+  	throw 'Cannot find uniform ' + name + '.';
+  }
+  return attributeLocation;
+}
+
+//************** Create shaders **************
+
+//Create vertex and fragment shaders
+var vertexShader = compileShader(vertexSource, gl.VERTEX_SHADER);
+var fragmentShader = compileShader(fragmentSource, gl.FRAGMENT_SHADER);
+
+//Create shader programs
+var program = gl.createProgram();
+gl.attachShader(program, vertexShader);
+gl.attachShader(program, fragmentShader);
+gl.linkProgram(program);
+
+gl.useProgram(program);
+
+//Set up rectangle covering entire canvas 
+var vertexData = new Float32Array([
+  -1.0,  1.0, 	// top left
+  -1.0, -1.0, 	// bottom left
+   1.0,  1.0, 	// top right
+   1.0, -1.0, 	// bottom right
+]);
+
+//Create vertex buffer
+var vertexDataBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, vertexDataBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
+
+// Layout of our data in the vertex buffer
+var positionHandle = getAttribLocation(program, 'position');
+
+gl.enableVertexAttribArray(positionHandle);
+gl.vertexAttribPointer(positionHandle,
+  2, 				// position is a vec2 (2 values per component)
+  gl.FLOAT, // each component is a float
+  false, 		// don't normalize values
+  2 * 4, 		// two 4 byte float components per vertex (32 bit float is 4 bytes)
+  0 				// how many bytes inside the buffer to start from
+  );
+
+//Set uniform handle
+var timeHandle = getUniformLocation(program, 'time');
+var widthHandle = getUniformLocation(program, 'width');
+var heightHandle = getUniformLocation(program, 'height');
+
+gl.uniform1f(widthHandle, window.innerWidth);
+gl.uniform1f(heightHandle, window.innerHeight);
+
+var lastFrame = Date.now();
+var thisFrame;
+
+function draw(){
+	
+  //Update time
+	thisFrame = Date.now();
+  time += (thisFrame - lastFrame)/1000;	
+	lastFrame = thisFrame;
+
+	//Send uniforms to program
+  gl.uniform1f(timeHandle, time);
+  //Draw a triangle strip connecting vertices 0-4
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+  requestAnimationFrame(draw);
+}
+
+draw();</script>
 
     <script>
-        // Get data from URL
-        function getData() {
-            const params = new URLSearchParams(window.location.search);
-            const dataParam = params.get('data');
-            if (!dataParam) {
-                return null;
-            }
-            try {
-                return JSON.parse(decodeURIComponent(dataParam));
-            } catch(e) {
-                console.error("Invalid JSON data in URL");
-                return null;
-            }
-        }
-
-        function displaySurprise(data) {
-            if (!data) return;
-
-            const greeting = document.getElementById('greeting');
-            greeting.textContent = `Happy Birthday ${data.birthdayPerson || ''}!`;
-
-            const circle = document.getElementById('circleImages');
-            const images = data.images || [];
-            const total = images.length;
-
-            images.forEach((imgUrl, index) => {
-                const img = document.createElement('img');
-                img.src = imgUrl;
-                const angle = (index / total) * 2 * Math.PI;
-                const radius = 180;
-                const x = radius * Math.cos(angle);
-                const y = radius * Math.sin(angle);
-                img.style.left = `${200 + x - 40}px`; // center + offset - half width
-                img.style.top = `${200 + y - 40}px`;  // center + offset - half height
-                circle.appendChild(img);
+        window.onload = function() {
+            var audio = document.getElementById("myAudio");
+            audio.muted = false;
+            audio.play().catch(function(e) {
+                console.log('Audio playback failed:', e);
             });
-        }
 
-        // Run
-        const data = getData();
-        displaySurprise(data);
+            // Hiệu ứng pháo hoa và trái tim
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            function random(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            function Firework(x, y) {
+                this.x = x;
+                this.y = y;
+                this.radius = random(2, 4);
+                this.color = `hsl(${random(0, 360)}, 100%, 50%)`;
+                this.vx = random(-3, 3);
+                this.vy = random(-3, 3);
+                this.life = 100;
+            }
+
+            Firework.prototype.draw = function () {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            };
+
+            Firework.prototype.update = function () {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life--;
+            };
+
+            function Heart(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = random(20, 40);
+                this.color = 'red';
+                this.vy = random(-2, -1);
+                this.opacity = 1;
+            }
+
+            Heart.prototype.draw = function () {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.bezierCurveTo(this.x - this.size / 2, this.y - this.size / 2, this.x - this.size, this.y + this.size / 3, this.x, this.y + this.size);
+                ctx.bezierCurveTo(this.x + this.size, this.y + this.size / 3, this.x + this.size / 2, this.y - this.size / 2, this.x, this.y);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            };
+
+            Heart.prototype.update = function () {
+                this.y += this.vy;
+                this.opacity -= 0.01;
+            };
+
+            let fireworks = [];
+            let hearts = [];
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (Math.random() < 0.1) {
+                    fireworks.push(new Firework(random(0, canvas.width), random(0, canvas.height)));
+                }
+                if (Math.random() < 0.05) {
+                    hearts.push(new Heart(random(0, canvas.width), canvas.height));
+                }
+
+                fireworks.forEach((firework, index) => {
+                    firework.draw();
+                    firework.update();
+                    if (firework.life <= 0) {
+                        fireworks.splice(index, 1);
+                    }
+                });
+
+                hearts.forEach((heart, index) => {
+                    heart.draw();
+                    heart.update();
+                    if (heart.opacity <= 0) {
+                        hearts.splice(index, 1);
+                    }
+                });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        };
     </script>
-
 </body>
 </html>
