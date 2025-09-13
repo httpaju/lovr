@@ -3,117 +3,20 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Create Birthday Surprise</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #fff3f3;
-            text-align: center;
-            padding: 20px;
-        }
-        h1 {
-            color: #d6336c;
-        }
-        input, textarea, button {
-            width: 90%;
-            max-width: 400px;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #d6336c;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #a83250;
-        }
-        #loading {
-            display: none;
-            color: #d6336c;
-        }
-    </style>
+    <title>Birthday Surprise!</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>🎁 Create a Birthday Surprise 🎁</h1>
-    <form id="surpriseForm">
-        <input type="text" id="yourName" placeholder="Your Name" required /><br />
-        <input type="text" id="birthdayPerson" placeholder="Birthday Person's Name" required /><br />
-        <textarea id="message" placeholder="Write your message..." rows="4" required></textarea><br />
-        <input type="file" id="photos" accept="image/*" multiple /><br />
-        <button type="submit">Generate Surprise Link</button>
-    </form>
-    <div id="loading">Uploading images, please wait...</div>
-    <div id="result" style="display:none;">
-        <p>Share this link with them:</p>
-        <input type="text" id="shareLink" readonly style="width:80%;"/>
+
+    <h1 id="greeting">Happy Birthday!</h1>
+    <h2 id="birthday-person"></h2>
+    <p id="message"></p>
+
+    <div id="drag-container">
+        <div id="spin-container"></div>
     </div>
+    <div id="ground"></div>
 
-    <script>
-        const imgbbAPIKey = "7f9612830d43ab6c8aec82f34731e8b9"; // Your API key
-
-        document.getElementById('surpriseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const yourName = document.getElementById('yourName').value.trim();
-            const birthdayPerson = document.getElementById('birthdayPerson').value.trim();
-            const message = document.getElementById('message').value.trim();
-            const photos = document.getElementById('photos').files;
-            const loading = document.getElementById('loading');
-            const result = document.getElementById('result');
-            const shareLink = document.getElementById('shareLink');
-
-            loading.style.display = "block";
-            result.style.display = "none";
-
-            const imageUrls = [];
-            const promises = [];
-
-            for (let i = 0; i < photos.length; i++) {
-                const photo = photos[i];
-                const formData = new FormData();
-                formData.append("image", photo);
-
-                const upload = fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        imageUrls.push(data.data.url);
-                    } else {
-                        console.error("Image upload failed");
-                    }
-                })
-                .catch(err => {
-                    console.error("Upload error:", err);
-                });
-
-                promises.push(upload);
-            }
-
-            Promise.all(promises).then(() => {
-                const data = {
-                    yourName,
-                    birthdayPerson,
-                    message,
-                    images: imageUrls
-                };
-                const encoded = encodeURIComponent(JSON.stringify(data));
-                const link = `${window.location.origin}/surprise.html?data=${encoded}`;
-
-                loading.style.display = "none";
-                result.style.display = "block";
-                shareLink.value = link;
-                shareLink.select();
-                document.execCommand("copy");
-                alert("Link copied! Share it with them.");
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
